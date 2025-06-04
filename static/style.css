@@ -1,0 +1,83 @@
+html {
+  font-size: 24px;
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+body {
+  text-align: center;
+  display: block;
+  max-width: 2000px;
+  margin: 0px auto;
+  padding: 20px;
+  background-color: #35b255;
+}
+
+.WeedButton,
+.MethButton,
+.CocaineButton {
+  padding: 12px 24px;
+  font-size: 16px;
+  margin: 10px 8px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.MethButton { background-color: #dc3545; }
+.CocaineButton { background-color: #007bff; }
+
+.back-button   {
+  display: block;
+  margin: 20px auto;  /* centers horizontally */
+  padding: 12px 24px;
+  font-size: 16px;
+  color: white;
+  background-color: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+}
+.section-chamber label,
+ .section-pot.conditional label,
+ .section-lighting label{
+  font-weight: bold;
+}
+.section-chamber,
+ .section-pot.conditional,
+  .section-lighting{
+margin: 20px;
+}
+.section-chamber select,
+ .section-pot.conditional select,
+ .section-lighting select {
+  font-size: 16px;
+  padding: 10px 14px;
+  width: 100%;
+  max-width: 300px;  /* Adjust as needed */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  appearance: none;       /* Removes OS default styles */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section-chamber select:focus,
+ .section-pot.conditional select:focus,
+  .section-lighting select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
+
+
+

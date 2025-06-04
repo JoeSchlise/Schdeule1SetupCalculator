@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Schedule 1 Setup Calculator</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    .conditional { display: none; }
+    .main_page-button-wrapper form { display: inline-block; margin-right: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Schedule 1 Setup Calculator</h1>
+
+  <div class="main_page-button-wrapper">
+    <form action="/" method="GET">
+      <button class="WeedButton" type="submit">Weed</button>
+    </form>
+    <form action="/stop" method="POST">
+      <button class="MethButton" type="submit">Meth</button>
+    </form>
+    <form action="/view_result" method="POST">
+      <button class="CocaineButton" type="submit">Cocaine</button>
+    </form>
+  </div>
+  <button type="button" id="back-button" class="back-button" style="display: none;">⬅ Back</button>
+  <form method="POST" action="/" id="weed-form" style="display: none;">
+    <div class="section-chamber">
+      <label>Choose Grow Environment:
+        <select name="chamber" id="chamber" required>
+          <option value="">--Select--</option>
+          <option value="Pot" {% if request.form.chamber == 'Pot' %}selected{% endif %}>Pot</option>
+          <option value="Tent" {% if request.form.chamber == 'Tent' %}selected{% endif %}>Tent</option>
+        </select>
+      </label>
+    </div>
+
+    <div id="pot-section" class="section-pot conditional">
+      <label>Choose Pot Type:
+        <select name="pot_type">
+          <option value="Air Pot" {% if request.form.pot_type == 'Air Pot' %}selected{% endif %}>Air Pot</option>
+          <option value="Moisture-Preserving Pot" {% if request.form.pot_type == 'Moisture-Preserving Pot' %}selected{% endif %}>Moisture-Preserving Pot</option>
+          <option value="Plastic Pot" {% if request.form.pot_type == 'Plastic Pot' %}selected{% endif %}>Plastic Pot</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="section-lighting">
+      <label>Select Lighting:
+        <select name="light_type" required>
+          <option value="Full Spectrum Grow Light" {% if request.form.light_type == 'Full Spectrum Grow Light' %}selected{% endif %}>Full Spectrum Grow Light</option>
+          <option value="LED Grow Light" {% if request.form.light_type == 'LED Grow Light' %}selected{% endif %}>LED Grow Light</option>
+          <option value="Halogen Grow Light" {% if request.form.light_type == 'Halogen Grow Light' %}selected{% endif %}>Halogen Grow Light</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="section-additives">
+      <fieldset>
+        <legend>Choose Growth Additives</legend>
+        <label><input type="checkbox" name="additives" value="Fertilizer" {% if 'Fertilizer' in request.form.getlist('additives') %}checked{% endif %}> Fertilizer</label>
+        <label><input type="checkbox" name="additives" value="Speed Grow" {% if 'Speed Grow' in request.form.getlist('additives') %}checked{% endif %}> Speed Grow</label>
+        <label><input type="checkbox" name="additives" value="PGR" {% if 'PGR' in request.form.getlist('additives') %}checked{% endif %}> PGR</label>
+      </fieldset>
+    </div>
+
+    <div class="section-seeds">
+      <label>Select Seed Type:
+        <select name="seed_type" required>
+          <option value="OG Kush Seed" {% if request.form.seed_type == 'OG Kush Seed' %}selected{% endif %}>OG Kush Seed</option>
+          <option value="Sour Diesel Seed" {% if request.form.seed_type == 'Sour Diesel Seed' %}selected{% endif %}>Sour Diesel Seed</option>
+          <option value="Green Crack Seed" {% if request.form.seed_type == 'Green Crack Seed' %}selected{% endif %}>Green Crack Seed</option>
+          <option value="Granddaddy Purple Seed" {% if request.form.seed_type == 'Granddaddy Purple Seed' %}selected{% endif %}>Granddaddy Purple Seed</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="section-plant-count">
+      <label>How many plants per cycle?
+        <input type="number" name="plants_per_cycle" min="1" required value="{{ request.form.plants_per_cycle }}">
+      </label>
+    </div>
+
+    <div class="section-mixing">
+      <label>Are you mixing?</label>
+      <label><input type="radio" name="mixing" value="y" required {% if request.form.mixing == 'y' %}checked{% endif %}> Yes</label>
+      <label><input type="radio" name="mixing" value="n" {% if request.form.mixing == 'n' %}checked{% endif %}> No</label>
+
+      <div id="mixing-details" class="section-mixing-details conditional">
+        <label>How many ingredients?
+          <input type="number" name="num_mixes" value="{{ request.form.num_mixes }}">
+        </label>
+        <label>Each ingredient has its own mixer?
+          <select name="own_mixer">
+            <option value="y" {% if request.form.own_mixer == 'y' %}selected{% endif %}>Yes</option>
+            <option value="n" {% if request.form.own_mixer == 'n' %}selected{% endif %}>No</option>
+          </select>
+        </label>
+        <label>Mixer Type:
+          <select name="mixer_type">
+            <option value="Mixing Station" {% if request.form.mixer_type == 'Mixing Station' %}selected{% endif %}>Mixing Station</option>
+            <option value="Mixing Station Mk2" {% if request.form.mixer_type == 'Mixing Station Mk2' %}selected{% endif %}>Mixing Station Mk2</option>
+          </select>
+        </label>
+        <label>Choose Ingredients (use Ctrl/Command to select multiple):
+          <select name="ingredients" multiple size="6">
+            {% for ing in ["Cuke", "Banana", "Paracetamol", "Donut", "V*agra", "Flu Medicine", "Battery"] %}
+              <option value="{{ ing }}" {% if ing in request.form.getlist('ingredients') %}selected{% endif %}>{{ ing }}</option>
+            {% endfor %}
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="section-botanist">
+      <label>Use a Botanist?</label>
+      <label><input type="radio" name="botanist" value="y" required {% if request.form.botanist == 'y' %}checked{% endif %}> Yes</label>
+      <label><input type="radio" name="botanist" value="n" {% if request.form.botanist == 'n' %}checked{% endif %}> No</label>
+    </div>
+
+    <div class="section-pricing">
+      <label>Enter Selling Price per Product:
+        <input type="number" name="price_per_unit" min="1" step="0.01" required value="{{ request.form.price_per_unit }}">
+      </label>
+    </div>
+
+    <br><br>
+    <button type="submit">Calculate</button>
+  </form>
+
+  {% if summary %}
+    <hr>
+    <h2>SUMMARY</h2>
+    <p>Total Plants: {{ summary.total_plants }}</p>
+    <p>Total Product: {{ summary.total_product }}</p>
+    <p>Fixed Cost: ${{ summary.fixed }}</p>
+    <p>Variable Cost/Day: ${{ summary.variable }}</p>
+    <p>Daily Revenue: ${{ summary.revenue }}</p>
+    <p>Daily Profit: ${{ summary.profit }}</p>
+  {% endif %}
+
+  <script>
+    document.querySelector('.WeedButton')?.addEventListener('click', function(event) {
+      event.preventDefault();
+      document.querySelector('.main_page-button-wrapper').style.display = 'none';
+      document.getElementById('back-button').style.display = 'inline-block';
+      document.getElementById('weed-form').style.display = 'block';
+    });
+
+    document.getElementById('back-button')?.addEventListener('click', function () {
+      document.getElementById('weed-form').style.display = 'none';
+      document.querySelector('.main_page-button-wrapper').style.display = 'block';
+      this.style.display = 'none';
+    });
+
+    document.getElementById('chamber').addEventListener('change', function () {
+      document.getElementById('pot-section').style.display = this.value === 'Pot' ? 'block' : 'none';
+    });
+
+    const mixingRadios = document.getElementsByName('mixing');
+    mixingRadios.forEach(r => r.addEventListener('change', function () {
+      document.getElementById('mixing-details').style.display = this.value === 'y' ? 'block' : 'none';
+    }));
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const chamber = document.getElementById('chamber');
+      if (chamber.value === 'Pot') {
+        document.getElementById('pot-section').style.display = 'block';
+      }
+      const mixingVal = '{{ request.form.mixing }}';
+      if (mixingVal === 'y') {
+        document.getElementById('mixing-details').style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
